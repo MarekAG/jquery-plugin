@@ -150,6 +150,11 @@
         return this;
 
     };
+    
+    
+    function log2(val) {
+        return Math.log(val) / Math.LN2;
+    };
 
 }(jQuery));
 
