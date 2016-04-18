@@ -111,6 +111,45 @@
 
         return this;
     };
+    
+    
+        $.fn.validatePassEntropy = function () {
+        $(this).keyup(function () {
+            var pass = $(this).val();
+
+            // foreach prob * log2(1/prob)
+            var nrOfLetters = letters.length + 2;
+            var nrOfSigns = signs.length;
+            var nrOfNumbers = 10;
+
+            var lettersInPass = 0;
+            var signsInPass = 0;
+            var numbersInPass = 0;
+            for (var i = 0; i < pass.length; i++) {
+                if (letters.indexOf(pass[i].toLowerCase()) != -1) {
+                    lettersInPass++;
+                }
+
+                else if (signs.indexOf(pass[i]) != -1) {
+                    signsInPass++;
+                } else if ([0, 1, 2, 3, 4, 5, 6, 7, 8, 9].indexOf(parseInt(pass[i])) != -1) {
+                    numbersInPass++;
+                }
+            }
+
+            var lettersSum = lettersInPass * (1 / nrOfLetters * log2(nrOfLetters));
+            var signsSum = signsInPass * (1 / nrOfSigns * log2(nrOfSigns));
+            var numbersSum = numbersInPass * (1 / nrOfNumbers * log2(nrOfNumbers));
+
+            var wholeSum = lettersSum + signsSum + numbersSum;
+            console.log(wholeSum);
+
+            // wholeSum > 2 ok
+        });
+
+        return this;
+
+    };
 
 }(jQuery));
 
