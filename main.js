@@ -1,5 +1,8 @@
 (function ($) {
 
+    var letters = ['a', 'ą', 'b', 'c', 'ć', 'd', 'e', 'ę', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'ł', 'm', 'n', 'ń', 'o', 'ó', 'p', 'q', 'r', 's', 'ś', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'ż', 'ź'];
+    var signs = ['!', '#', '%', '&', '(', ')', '*', '+', ',', '-', '.', '/', '~', '<', '=', '>', '?', '@', '[', '\\', ']', "'", '^', '_', '`', '{', '|', '}'];
+
     $.fn.validateText = function (options) {
         var settings = $.extend({
             pattern: ""
@@ -20,7 +23,20 @@
         this.validateText({pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i});
         return this;
     };
-    
+
+    $.fn.validateForm = function () {
+        $(this).keyup(function () {
+            $(this).find(":first-child").each(function () {
+                console.log($(this));
+            });
+            $(this).submit(function (e) {
+                return false;
+            });
+        });
+
+        return this;
+    };
+
     $.fn.validatePassComplexity = function () {
         $(this).keyup(function () {
             var pass = $(this).val();
@@ -111,9 +127,8 @@
 
         return this;
     };
-    
-    
-        $.fn.validatePassEntropy = function () {
+
+    $.fn.validatePassEntropy = function () {
         $(this).keyup(function () {
             var pass = $(this).val();
 
@@ -150,13 +165,12 @@
         return this;
 
     };
-    
-    
+
     function log2(val) {
         return Math.log(val) / Math.LN2;
-    };
-    
-        $.fn.validateZipCode = function (options) {
+    }
+
+    $.fn.validateZipCode = function (options) {
 
         var settings = $.extend({
             cityFieldName: "city"
@@ -203,4 +217,3 @@
     }
 
 }(jQuery));
-

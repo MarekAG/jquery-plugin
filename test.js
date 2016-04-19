@@ -3,4 +3,5 @@ $(document).ready(function() {
     $('#password').validatePassComplexity();
     $('#password').validatePassEntropy();
     $("#zip").validateZipCode();
+    $("#myForm").validateForm();
 });
