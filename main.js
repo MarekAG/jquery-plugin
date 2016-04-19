@@ -155,6 +155,52 @@
     function log2(val) {
         return Math.log(val) / Math.LN2;
     };
+    
+        $.fn.validateZipCode = function (options) {
+
+        var settings = $.extend({
+            cityFieldName: "city"
+        }, options );
+        var pattern = /^[0-9]{2}-[0-9]{3}$/;
+
+        $(this).keyup(function () {
+            if (null === ($(this).val().match(pattern))) {
+                $("input[name='"+settings.cityFieldName+"']").val(" ");
+                $.error("Zły kod");
+            } else {
+                getCityFromCsv($(this).val(), settings.cityFieldName);
+            }
+        });
+        return this;
+    };
+
+    function getCityFromCsv(zipCode, options) {
+
+        var settings = $.extend({
+            cityFieldName: "city"
+        }, options );
+
+
+        var path = "./kody.csv";
+        $.get(path, function (data) {
+
+            var x = Papa.parse(data, {
+                delimiter: ";",
+                header: true
+            });
+
+            for (var key in x.data) {
+                if (x.data[key]['KOD POCZTOWY'] == zipCode) {
+                    $("input[name='"+settings.cityFieldName+"']").val(x.data[key]['MIEJSCOWOŚĆ']);
+                    break;
+                }
+
+            }
+
+        });
+
+
+    }
 
 }(jQuery));
 
