@@ -37,7 +37,7 @@
         $(this).submit(function (e) {
             $(this).find(":first-child").find(":input").each(function () {
                 if ($(this).val().length < 1) {
-                    console.log($(this).val())
+                    console.log($(this).val());
                     isEmpty = true;
                 }
             });
@@ -131,7 +131,7 @@
             console.log(returnValue);
 
             var passValidity;
-            if (returnValue == 0)
+            if (returnValue === 0)
                 passValidity = "";
             else if (returnValue < 30)
                 passValidity = "Bardzo słabe";
@@ -217,11 +217,11 @@
         $(this).keyup(function () {
             if (null === ($(this).val().match(pattern))) {
                 $("input[name='" + settings.cityFieldName + "']").val(" ");
-                $(this).css("border-color", "black")
+                $(this).css("border-color", "black");
             } else {
                 var found = getCityFromCsv($(this).val(), settings.cityFieldName);
                 if (found) {
-                    $(this).css("border-color", "black")
+                    $(this).css("border-color", "black");
                 }
                 if(!found) {
                     $(this).css("border-color", "red");
