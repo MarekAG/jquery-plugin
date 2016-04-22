@@ -7,7 +7,6 @@
         var settings = $.extend({
             pattern: ""
         }, options);
-        console.log(settings.pattern);
         $(this).on('change', function () {
             if (null === ($(this).val().match(settings.pattern))) {
                 $("#passValidation").text("Hasło nie pasuje do wzorca: " + settings.pattern);
@@ -23,7 +22,14 @@
     };
 
     $.fn.validateEmail = function () {
-        this.validateText({pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i});
+        $(this).keyup( function () {
+            if (null === ($(this).val().match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i))) {
+                $(this).css("border-color", "red");
+
+            } else {
+                $(this).css("border-color", "black  ");
+            }
+        });
         return this;
     };
 

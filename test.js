@@ -3,5 +3,6 @@ $(document).ready(function() {
     // $('#password').validatePassComplexity();
     $('#password').validatePassEntropy();
     $("#zip").validateZipCode();
+    $('#email').validateEmail();
     $("#myForm").validateForm();
 });
