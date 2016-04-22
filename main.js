@@ -122,12 +122,29 @@
             var returnValue = complexity * 10.0 / 8;
             console.log(returnValue);
 
-            // <30 bardzo słabe
-            // <50 słabe
-            // <65 średnie
-            // <85 dobre
-            // 85 95 bardzo dobre
-            // >95 świetne
+            var passValidity;
+            if(returnValue == 0)
+                passValidity = "";
+            else if(returnValue <30)
+                passValidity = "Bardzo słabe";
+            else if(returnValue <50)
+                passValidity = "Słabe";
+            else if(returnValue <65)
+                passValidity = "Średnie";
+            else if(returnValue <85)
+                passValidity = "Dobre";
+            else if(returnValue <95)
+                passValidity = "Bardzo dobre";
+            else
+                passValidity = "Świetne";
+
+            $("#passValidation").text(passValidity);
+            if (passValidity <50) {
+                $(this).css("border-color", "red");
+            } else {
+                $(this).css("border-color", "black  ");
+            }
+
         });
 
         return this;
@@ -185,20 +202,24 @@
         $(this).keyup(function () {
             if (null === ($(this).val().match(pattern))) {
                 $("input[name='"+settings.cityFieldName+"']").val(" ");
-                $.error("Zły kod");
             } else {
-                getCityFromCsv($(this).val(), settings.cityFieldName);
+                var found = getCityFromCsv($(this).val(), settings.cityFieldName);
+                if(found) {
+                    $(this).css("border-color", "black  ")
+                }
+                else {
+                    $(this).css("border-color", "red");
+                }
             }
         });
         return this;
     };
 
     function getCityFromCsv(zipCode, options) {
-
+        var isFound = false;
         var settings = $.extend({
             cityFieldName: "city"
         }, options );
-
 
         var path = "./kody.csv";
         $.get(path, function (data) {
@@ -211,14 +232,13 @@
             for (var key in x.data) {
                 if (x.data[key]['KOD POCZTOWY'] == zipCode) {
                     $("input[name='"+settings.cityFieldName+"']").val(x.data[key]['MIEJSCOWOŚĆ']);
-                    break;
+                    isFound = true;
                 }
 
             }
 
         });
-
-
+        return isFound;
     }
 
 }(jQuery));
