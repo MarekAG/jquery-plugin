@@ -10,9 +10,12 @@
         console.log(settings.pattern);
         $(this).on('change', function () {
             if (null === ($(this).val().match(settings.pattern))) {
-                $.error("nie działa");
+                $("#passValidation").text("Hasło nie pasuje do wzorca: " + settings.pattern);
+                $(this).css("border-color", "red");
+
             } else {
-                console.log("działa");
+                $("#passValidation").text("Hasło pasuje do wzorca");
+                $(this).css("border-color", "black  ");
             }
         });
 
@@ -26,17 +29,17 @@
 
     $.fn.validateForm = function () {
         var isEmpty = false;
-            $(this).submit(function (e) {
-                $(this).find(":first-child").find(":input").each(function () {
-                    if($(this).val().length < 1) {
-                        console.log($(this).val())
-                        isEmpty = true;
-                    }
-                });
-                if(isEmpty)
-                    return false;
-                else
-                    return true;
+        $(this).submit(function (e) {
+            $(this).find(":first-child").find(":input").each(function () {
+                if ($(this).val().length < 1) {
+                    console.log($(this).val())
+                    isEmpty = true;
+                }
+            });
+            if (isEmpty)
+                return false;
+            else
+                return true;
         });
 
         return this;
@@ -123,23 +126,23 @@
             console.log(returnValue);
 
             var passValidity;
-            if(returnValue == 0)
+            if (returnValue == 0)
                 passValidity = "";
-            else if(returnValue <30)
+            else if (returnValue < 30)
                 passValidity = "Bardzo słabe";
-            else if(returnValue <50)
+            else if (returnValue < 50)
                 passValidity = "Słabe";
-            else if(returnValue <65)
+            else if (returnValue < 65)
                 passValidity = "Średnie";
-            else if(returnValue <85)
+            else if (returnValue < 85)
                 passValidity = "Dobre";
-            else if(returnValue <95)
+            else if (returnValue < 95)
                 passValidity = "Bardzo dobre";
             else
                 passValidity = "Świetne";
 
             $("#passValidation").text(passValidity);
-            if (passValidity <50) {
+            if (passValidity < 50) {
                 $(this).css("border-color", "red");
             } else {
                 $(this).css("border-color", "black  ");
@@ -181,7 +184,14 @@
             var wholeSum = lettersSum + signsSum + numbersSum;
             console.log(wholeSum);
 
-            // wholeSum > 2 ok
+            if (wholeSum < 2) {
+                $("#passValidation").text("Hasło za słabe");
+                $(this).css("border-color", "red");
+            } else {
+                $("#passValidation").text("Dobre hasło");
+                $(this).css("border-color", "black  ");
+            }
+
         });
 
         return this;
@@ -196,15 +206,15 @@
 
         var settings = $.extend({
             cityFieldName: "city"
-        }, options );
+        }, options);
         var pattern = /^[0-9]{2}-[0-9]{3}$/;
 
         $(this).keyup(function () {
             if (null === ($(this).val().match(pattern))) {
-                $("input[name='"+settings.cityFieldName+"']").val(" ");
+                $("input[name='" + settings.cityFieldName + "']").val(" ");
             } else {
                 var found = getCityFromCsv($(this).val(), settings.cityFieldName);
-                if(found) {
+                if (found) {
                     $(this).css("border-color", "black  ")
                 }
                 else {
@@ -219,7 +229,7 @@
         var isFound = false;
         var settings = $.extend({
             cityFieldName: "city"
-        }, options );
+        }, options);
 
         var path = "./kody.csv";
         $.get(path, function (data) {
@@ -231,7 +241,7 @@
 
             for (var key in x.data) {
                 if (x.data[key]['KOD POCZTOWY'] == zipCode) {
-                    $("input[name='"+settings.cityFieldName+"']").val(x.data[key]['MIEJSCOWOŚĆ']);
+                    $("input[name='" + settings.cityFieldName + "']").val(x.data[key]['MIEJSCOWOŚĆ']);
                     isFound = true;
                 }
 
