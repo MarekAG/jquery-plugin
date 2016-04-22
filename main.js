@@ -25,13 +25,18 @@
     };
 
     $.fn.validateForm = function () {
-        $(this).keyup(function () {
-            $(this).find(":first-child").each(function () {
-                console.log($(this));
-            });
+        var isEmpty = false;
             $(this).submit(function (e) {
-                return false;
-            });
+                $(this).find(":first-child").find(":input").each(function () {
+                    if($(this).val().length < 1) {
+                        console.log($(this).val())
+                        isEmpty = true;
+                    }
+                });
+                if(isEmpty)
+                    return false;
+                else
+                    return true;
         });
 
         return this;
