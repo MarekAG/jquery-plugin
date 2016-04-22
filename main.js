@@ -25,7 +25,6 @@
         $(this).keyup( function () {
             if (null === ($(this).val().match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$/i))) {
                 $(this).css("border-color", "red");
-
             } else {
                 $(this).css("border-color", "black  ");
             }
@@ -218,12 +217,13 @@
         $(this).keyup(function () {
             if (null === ($(this).val().match(pattern))) {
                 $("input[name='" + settings.cityFieldName + "']").val(" ");
+                $(this).css("border-color", "black")
             } else {
                 var found = getCityFromCsv($(this).val(), settings.cityFieldName);
                 if (found) {
-                    $(this).css("border-color", "black  ")
+                    $(this).css("border-color", "black")
                 }
-                else {
+                if(!found) {
                     $(this).css("border-color", "red");
                 }
             }
@@ -247,8 +247,8 @@
 
             for (var key in x.data) {
                 if (x.data[key]['KOD POCZTOWY'] == zipCode) {
-                    $("input[name='" + settings.cityFieldName + "']").val(x.data[key]['MIEJSCOWOŚĆ']);
                     isFound = true;
+                    $("input[name='" + settings.cityFieldName + "']").val(x.data[key]['MIEJSCOWOŚĆ']);
                 }
 
             }
